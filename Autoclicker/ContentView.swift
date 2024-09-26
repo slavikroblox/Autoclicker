@@ -22,22 +22,6 @@ struct ContentView: View {
     @State private var xPosition = 0
     @State private var yPosition = 0
     
-    func checkForKeyPresses() {
-        NSEvent.addGlobalMonitorForEvents(matching: .keyDown) { event in
-            if event.keyCode == 97 {
-                if running == false {
-                    print("F6 pressed")
-                    running = true
-                    print("Started process")
-                } else {
-                    print("F6 pressed")
-                    running = false
-                    print("Stopped process")
-                }
-            }
-        }
-    }
-    
     var body: some View {
         VStack {
             HStack {
@@ -76,13 +60,13 @@ struct ContentView: View {
             HStack {
                 
                 Button(action: {running = true; print("Starting"); autoClick?.startAutoClick()}, label: {
-                    Text("Start (F6)")
+                    Text("Start")
                         .frame(width: 100)
                 })
                 .disabled(running)
                 
                 Button(action: {running = false}, label: {
-                    Text("Stop (F6)")
+                    Text("Stop")
                         .frame(width: 100)
                 })
                 .disabled(!running)

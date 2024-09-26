@@ -11,7 +11,7 @@ import SwiftUI
 struct AutoclickerApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            TabMenu()
         }
     }
 }

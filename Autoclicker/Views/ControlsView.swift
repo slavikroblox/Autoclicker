@@ -18,7 +18,7 @@ struct ControlsView: View {
     var body: some View {
         VStack {
             HStack {
-                Picker(selection: $startButtonText, label: Text("Start: ")) {
+                Picker(selection: $controls.startButtonText, label: Text("Start: ")) {
                     
                     // F's
                     Text("F1").tag("F1")
@@ -50,7 +50,7 @@ struct ControlsView: View {
             }
                 
             HStack {
-                Picker(selection: $stopButtonText, label: Text("Stop: ")) {
+                Picker(selection: $controls.stopButtonText, label: Text("Stop: ")) {
                     
                     // F's
                     Text("F1").tag("F1")

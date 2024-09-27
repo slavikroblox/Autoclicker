@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,8 +12,6 @@
 		963120492C973EC60084EBA7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 963120482C973EC60084EBA7 /* Assets.xcassets */; };
 		9631204C2C973EC60084EBA7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9631204B2C973EC60084EBA7 /* Preview Assets.xcassets */; };
 		9651EA952C994CC0004A3D0E /* Autoclick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9651EA942C994CC0004A3D0E /* Autoclick.swift */; };
-		96850C972CA32E3F00E74BF8 /* TabMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96850C962CA32E3F00E74BF8 /* TabMenu.swift */; };
-		96850C992CA32F0800E74BF8 /* ControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96850C982CA32F0800E74BF8 /* ControlsView.swift */; };
 		96850C9D2CA3373B00E74BF8 /* Controls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96850C9C2CA3373B00E74BF8 /* Controls.swift */; };
 /* End PBXBuildFile section */
 
@@ -25,10 +23,23 @@
 		9631204B2C973EC60084EBA7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9631204D2C973EC60084EBA7 /* Autoclicker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Autoclicker.entitlements; sourceTree = "<group>"; };
 		9651EA942C994CC0004A3D0E /* Autoclick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Autoclick.swift; sourceTree = "<group>"; };
-		96850C962CA32E3F00E74BF8 /* TabMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabMenu.swift; sourceTree = "<group>"; };
-		96850C982CA32F0800E74BF8 /* ControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlsView.swift; sourceTree = "<group>"; };
 		96850C9C2CA3373B00E74BF8 /* Controls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Controls.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		96D98BBF2CA717F00094D168 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				ControlsView.swift,
+				TabMenu.swift,
+			);
+			target = 963120402C973EC40084EBA7 /* Autoclicker */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		96D98BBE2CA717D20094D168 /* Views */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (96D98BBF2CA717F00094D168 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Views; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		9631203E2C973EC40084EBA7 /* Frameworks */ = {
@@ -60,12 +71,11 @@
 		963120432C973EC40084EBA7 /* Autoclicker */ = {
 			isa = PBXGroup;
 			children = (
+				96D98BBE2CA717D20094D168 /* Views */,
 				9651EA942C994CC0004A3D0E /* Autoclick.swift */,
 				963120442C973EC40084EBA7 /* AutoclickerApp.swift */,
 				963120462C973EC40084EBA7 /* ContentView.swift */,
-				96850C982CA32F0800E74BF8 /* ControlsView.swift */,
 				96850C9C2CA3373B00E74BF8 /* Controls.swift */,
-				96850C962CA32E3F00E74BF8 /* TabMenu.swift */,
 				963120482C973EC60084EBA7 /* Assets.xcassets */,
 				9631204D2C973EC60084EBA7 /* Autoclicker.entitlements */,
 				9631204A2C973EC60084EBA7 /* Preview Content */,
@@ -151,11 +161,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96850C972CA32E3F00E74BF8 /* TabMenu.swift in Sources */,
 				96850C9D2CA3373B00E74BF8 /* Controls.swift in Sources */,
 				9651EA952C994CC0004A3D0E /* Autoclick.swift in Sources */,
 				963120472C973EC40084EBA7 /* ContentView.swift in Sources */,
-				96850C992CA32F0800E74BF8 /* ControlsView.swift in Sources */,
 				963120452C973EC40084EBA7 /* AutoclickerApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -8,25 +8,29 @@
 import SwiftUI
 
 struct TabMenu: View {
-    var body: some View {        
+    @StateObject var controls = Controls()
+    
+    var body: some View {
         TabView {
             ContentView()
+                .environmentObject(controls)
                 .tabItem {
-                    Label("Click", systemImage: "")
+                    Text("Click")
                 }
             
             ControlsView()
+                .environmentObject(controls)
                 .tabItem {
-                    Label("Controls (beta)", systemImage: "")
+                    Text("Controls (beta)")
                 }
+            
         }
-        .frame(width: 350, height: 250)
+        .frame(width: 500, height: 350)
     }
 }
 
 struct TabMenu_Previews: PreviewProvider {
     static var previews: some View {
         TabMenu()
-            .environmentObject(Controls())
     }
 }

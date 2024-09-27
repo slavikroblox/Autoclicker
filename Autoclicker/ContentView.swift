@@ -8,13 +8,12 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var controls: Controls
     
     @State private var autoClick: Autoclick?
     
     init() {
     }
-    
-    @State private var controlsView = ControlsView()
     
     @State public var running : Bool = false
     
@@ -62,13 +61,13 @@ struct ContentView: View {
             HStack {
                 
                 Button(action: {running = true; print("Starting"); autoClick?.startAutoClick()}, label: {
-                    Text("Start (\(controlsView.startButtonText))")
+                    Text("Start (\(controls.startButtonText))")
                         .frame(width: 100)
                 })
                 .disabled(running)
                 
                 Button(action: {running = false}, label: {
-                    Text("Stop (\(controlsView.stopButtonText))")
+                    Text("Stop (\(controls.stopButtonText))")
                         .frame(width: 100)
                 })
                 .disabled(!running)

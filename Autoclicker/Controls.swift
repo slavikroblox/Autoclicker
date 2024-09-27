@@ -10,5 +10,6 @@ import SwiftUI
 import Combine
 
 class Controls: ObservableObject {
-    @Published var something : Int = 0
+    @Published var startButtonText : String = "F6"
+    @Published var stopButtonText : String = "F6"
 }

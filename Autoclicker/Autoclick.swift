@@ -10,6 +10,8 @@ import Cocoa
 
 class Autoclick {
     
+    private var controlsView = ControlsView()
+    
     var contentView: ContentView
     
     init(contentView: ContentView) {
@@ -30,9 +32,10 @@ class Autoclick {
         let mouseUpEvent = CGEvent(mouseEventSource: source, mouseType: .leftMouseUp, mouseCursorPosition: mousePosition, mouseButton: .left)
         CGEvent(mouseEventSource: nil, mouseType: CGEventType.mouseMoved, mouseCursorPosition: CGPointMake(100, 100), mouseButton: CGMouseButton.left)?.post(tap: CGEventTapLocation.cghidEventTap)
         
-        mouseDownEvent?.post(tap: .cghidEventTap)
+        mouseDownEvent?.postToPid(44731)
         usleep(100_000)
-        mouseUpEvent?.post(tap: .cghidEventTap)
+        mouseUpEvent?.postToPid(44731)
+        print(controlsView.startButtonText)
         
     }
     

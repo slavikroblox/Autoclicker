@@ -14,6 +14,8 @@ struct ContentView: View {
     init() {
     }
     
+    @State private var controlsView = ControlsView()
+    
     @State public var running : Bool = false
     
     @State private var cps : Int = 0
@@ -60,13 +62,13 @@ struct ContentView: View {
             HStack {
                 
                 Button(action: {running = true; print("Starting"); autoClick?.startAutoClick()}, label: {
-                    Text("Start")
+                    Text("Start (\(controlsView.startButtonText))")
                         .frame(width: 100)
                 })
                 .disabled(running)
                 
                 Button(action: {running = false}, label: {
-                    Text("Stop")
+                    Text("Stop (\(controlsView.stopButtonText))")
                         .frame(width: 100)
                 })
                 .disabled(!running)

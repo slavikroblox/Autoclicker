@@ -32,5 +32,6 @@ struct TabMenu: View {
 struct TabMenu_Previews: PreviewProvider {
     static var previews: some View {
         TabMenu()
+            .environmentObject(Controls())
     }
 }

@@ -86,5 +86,6 @@ struct ControlsView: View {
 }
     
 #Preview {
-    ControlsView().environmentObject(Controls())
+    ControlsView()
+        .environmentObject(Controls())
 }

@@ -11,38 +11,57 @@ import Cocoa
 class Autoclick {
     
     private var controlsView = ControlsView()
+    private var timesClicked : Int = 0
     
     var contentView: ContentView
+    
+    var interval: TimeInterval {
+        return 1.0 / contentView.cps
+    }
     
     init(contentView: ContentView) {
         self.contentView = contentView
     }
     
-    func autoclick() {
-        
-        let source = CGEventSource(stateID: .hidSystemState)
-        
-        let screenHeight = NSScreen.main!.frame.height
-        let mouseLocation = NSEvent.mouseLocation
-        let mouseLocationY = screenHeight - mouseLocation.y
-        let mousePosition = CGPoint(x: mouseLocation.x, y: mouseLocationY)
-        print("x: \(mousePosition.x), y: \(mousePosition.y)")
-        
-        let mouseDownEvent = CGEvent(mouseEventSource: source, mouseType: .leftMouseDown, mouseCursorPosition: mousePosition, mouseButton: .left)
-        let mouseUpEvent = CGEvent(mouseEventSource: source, mouseType: .leftMouseUp, mouseCursorPosition: mousePosition, mouseButton: .left)
-        CGEvent(mouseEventSource: nil, mouseType: CGEventType.mouseMoved, mouseCursorPosition: CGPointMake(100, 100), mouseButton: CGMouseButton.left)?.post(tap: CGEventTapLocation.cghidEventTap)
-        
-        mouseDownEvent?.postToPid(44731)
-        usleep(100_000)
-        mouseUpEvent?.postToPid(44731)
-        print(controlsView.startButtonText)
-        
-    }
     
+    
+    func autoclick() {
+        let mousePosition = NSEvent.mouseLocation
+        if let screenHeight = NSScreen.main?.frame.height {
+            let correctedPosition = CGPoint(x: mousePosition.x, y: screenHeight - mousePosition.y)
+            
+            let mouseDown = CGEvent(mouseEventSource: nil, mouseType: .leftMouseDown, mouseCursorPosition: correctedPosition, mouseButton: .left)
+            mouseDown?.timestamp = UInt64(interval)
+            mouseDown?.post(tap: .cghidEventTap)
+            
+            let mouseUp = CGEvent(mouseEventSource: nil, mouseType: .leftMouseUp, mouseCursorPosition: correctedPosition, mouseButton: .left)
+            mouseUp?.timestamp = UInt64(interval)
+            mouseUp?.post(tap: .cghidEventTap)
+            
+        }
+    }
+        
     func startAutoClick() {
         DispatchQueue.global(qos: .background).async {
-            while self.contentView.running == true {
-                self.autoclick()
+            if self.contentView.repeatType == "times" {
+                while self.contentView.running == true && self.timesClicked < self.contentView.repeatTimes {
+                    self.autoclick()
+                    self.timesClicked += 1
+                    Thread.sleep(forTimeInterval: self.interval)
+                }
+                print("Clicked \(self.timesClicked) times. Ending autoclick.")
+                self.contentView.running = false
+                self.timesClicked = 0
+            } else if self.contentView.repeatType == "until_stop" {
+                while self.contentView.running == true {
+                    self.autoclick()
+                    Thread.sleep(forTimeInterval: self.interval)
+                }
+            } else {
+                while self.contentView.running == true {
+                    self.autoclick()
+                    Thread.sleep(forTimeInterval: self.interval)
+                }
             }
         }
     }

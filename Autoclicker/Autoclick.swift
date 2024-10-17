@@ -30,13 +30,23 @@ class Autoclick {
         if let screenHeight = NSScreen.main?.frame.height {
             let correctedPosition = CGPoint(x: mousePosition.x, y: screenHeight - mousePosition.y)
             
-            let mouseDown = CGEvent(mouseEventSource: nil, mouseType: .leftMouseDown, mouseCursorPosition: correctedPosition, mouseButton: .left)
-            mouseDown?.timestamp = UInt64(interval)
-            mouseDown?.post(tap: .cghidEventTap)
-            
-            let mouseUp = CGEvent(mouseEventSource: nil, mouseType: .leftMouseUp, mouseCursorPosition: correctedPosition, mouseButton: .left)
-            mouseUp?.timestamp = UInt64(interval)
-            mouseUp?.post(tap: .cghidEventTap)
+            if self.contentView.mouseButton == "left" {
+                let mouseDown = CGEvent(mouseEventSource: nil, mouseType: .leftMouseDown, mouseCursorPosition: correctedPosition, mouseButton: .left)
+                mouseDown?.timestamp = UInt64(interval)
+                mouseDown?.post(tap: .cghidEventTap)
+                
+                let mouseUp = CGEvent(mouseEventSource: nil, mouseType: .leftMouseUp, mouseCursorPosition: correctedPosition, mouseButton: .left)
+                mouseUp?.timestamp = UInt64(interval)
+                mouseUp?.post(tap: .cghidEventTap)
+            } else if self.contentView.mouseButton == "right" {
+                let mouseDown = CGEvent(mouseEventSource: nil, mouseType: .rightMouseDown, mouseCursorPosition: correctedPosition, mouseButton: .right)
+                mouseDown?.timestamp = UInt64(interval)
+                mouseDown?.post(tap: .cghidEventTap)
+                
+                let mouseUp = CGEvent(mouseEventSource: nil, mouseType: .rightMouseUp, mouseCursorPosition: correctedPosition, mouseButton: .right)
+                mouseUp?.timestamp = UInt64(interval)
+                mouseUp?.post(tap: .cghidEventTap)
+            }
             
         }
     }

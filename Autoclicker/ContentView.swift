@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import AppKit
 
 struct ContentView: View {
     @EnvironmentObject var controls: Controls
@@ -36,8 +35,10 @@ struct ContentView: View {
     @State public var seconds : Int = 0
     
     @State public var positionType = "manual"
-    @State public var xPosition = 0
-    @State public var yPosition = 0
+    @State public var xPosition : Int = 0
+    @State public var yPosition : Int = 0
+    
+    @State public var mouseButton = "left"
     
     var body: some View {
         VStack {
@@ -69,8 +70,13 @@ struct ContentView: View {
                     .focused($isFocused, equals: false)
             }
             
+            Picker(selection: $mouseButton, label: Text("Mouse button:")) {
+                Text("Left").tag("left")
+                Text("Right").tag("right")
+            } .frame(width: 175)
+            
             HStack {
-                Picker(selection: $repeatType, label: Text("Repeat: ")) {
+                Picker(selection: $repeatType, label: Text("Repeat:")) {
                     HStack {
                         Text("Times")
                         TextField("0", value: $repeatTimes, format: .number)

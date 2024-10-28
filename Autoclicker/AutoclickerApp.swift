@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct AutoclickerApp: App {    
+struct AutoclickerApp: App {
     var body: some Scene {
         WindowGroup {
             TabMenu()

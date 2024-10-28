@@ -46,6 +46,14 @@ class Autoclick {
                 let mouseUp = CGEvent(mouseEventSource: nil, mouseType: .rightMouseUp, mouseCursorPosition: correctedPosition, mouseButton: .right)
                 mouseUp?.timestamp = UInt64(interval)
                 mouseUp?.post(tap: .cghidEventTap)
+            } else if self.contentView.mouseButton == "middle" {
+                let mouseDown = CGEvent(mouseEventSource: nil, mouseType: .otherMouseDown, mouseCursorPosition: correctedPosition, mouseButton: .center)
+                mouseDown?.timestamp = UInt64(interval)
+                mouseDown?.post(tap: .cghidEventTap)
+                
+                let mouseUp = CGEvent(mouseEventSource: nil, mouseType: .otherMouseUp, mouseCursorPosition: correctedPosition, mouseButton: .center)
+                mouseUp?.timestamp = UInt64(interval)
+                mouseUp?.post(tap: .cghidEventTap)
             }
             
         }

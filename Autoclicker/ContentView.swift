@@ -6,13 +6,14 @@
 //
 
 import SwiftUI
+import AppKit
 
 struct ContentView: View {
     @EnvironmentObject var controls: Controls
     
     @State private var autoClick: Autoclick?
     
-    @FocusState private var isFocused: Bool?
+    @FocusState private var isFocused: Bool
     
     init() {
     }
@@ -39,6 +40,8 @@ struct ContentView: View {
     @State public var yPosition : Int = 0
     
     @State public var mouseButton = "left"
+    
+    @State public var timerBeforeStart = 0.0
     
     var body: some View {
         VStack {
@@ -67,11 +70,15 @@ struct ContentView: View {
                 TextField("0", value: $cps, format: .number)
                     .textFieldStyle(.roundedBorder)
                     .frame(width: 50)
-                    .focused($isFocused, equals: false)
+                    .focused($isFocused)
+                    .onSubmit {
+                        isFocused = false
+                    }
             }
             
             Picker(selection: $mouseButton, label: Text("Mouse button:")) {
                 Text("Left").tag("left")
+                Text("Middle").tag("middle")
                 Text("Right").tag("right")
             } .frame(width: 175)
             
@@ -83,6 +90,10 @@ struct ContentView: View {
                             .textFieldStyle(.roundedBorder)
                             .frame(width: 50)
                             .disabled(repeatType != "times")
+                            .focused($isFocused)
+                            .onSubmit {
+                                isFocused = false
+                            }
                     } .tag("times")
                     Text("Until stop").tag("until_stop")
                     Text("Until timer ends").tag("until_timer_ends")
@@ -97,15 +108,32 @@ struct ContentView: View {
                             .textFieldStyle(.roundedBorder)
                             .frame(width: 50)
                             .disabled(positionType != "manual")
+                            .focused($isFocused)
+                            .onSubmit {
+                                isFocused = false
+                            }
                         Text("Y:")
                         TextField("0", value: $yPosition, format: .number)
                             .textFieldStyle(.roundedBorder)
                             .frame(width: 50)
                             .disabled(positionType != "manual")
+                            .focused($isFocused)
+                            .onSubmit {
+                                isFocused = false
+                            }
                     } .tag("manual")
                     Text("Mouse position when starting").tag("mouse_pos_current")
                     Text("Always follow mouse").tag("mouse_follow")
                 } .pickerStyle(RadioGroupPickerStyle())
+            }
+            
+            HStack {
+                Picker(selection: $timerBeforeStart, label: Text("Timer before start: ")) {
+                    Text("Off").tag(0.0)
+                    Text("3s").tag(3.0)
+                    Text("5s").tag(5.0)
+                    Text("10s").tag(10.0)
+                }.frame(width: 200)
             }
             
             HStack {
@@ -127,6 +155,14 @@ struct ContentView: View {
             }
         }
         .padding()
+        .onSubmit {
+            isFocused = false
+        }
+        .onAppear() {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                isFocused = false
+            }
+        }
     }
 }
 

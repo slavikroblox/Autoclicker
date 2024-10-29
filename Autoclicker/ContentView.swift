@@ -43,6 +43,10 @@ struct ContentView: View {
     
     @State public var timerBeforeStart = 0.0
     
+    @State public var startButtonText = "Start"
+    
+    @State private var keyHandler: KeyHandler?
+    
     var body: some View {
         VStack {
             HStack {
@@ -51,18 +55,24 @@ struct ContentView: View {
                     .textFieldStyle(.roundedBorder)
                     .frame(width: 50)
                     .disabled(repeatType != "until_timer_ends")
+                    .focused($isFocused)
+                    .onSubmit { isFocused = false }
                         
                 Text("Minutes")
                 TextField("0", value: $minutes, format: .number)
                     .textFieldStyle(.roundedBorder)
                     .frame(width: 50)
                     .disabled(repeatType != "until_timer_ends")
+                    .focused($isFocused)
+                    .onSubmit { isFocused = false }
                         
                 Text("Seconds")
                 TextField("0", value: $seconds, format: .number)
                     .textFieldStyle(.roundedBorder)
                     .frame(width: 50)
                     .disabled(repeatType != "until_timer_ends")
+                    .focused($isFocused)
+                    .onSubmit { isFocused = false }
             }
             
             HStack {
@@ -71,9 +81,7 @@ struct ContentView: View {
                     .textFieldStyle(.roundedBorder)
                     .frame(width: 50)
                     .focused($isFocused)
-                    .onSubmit {
-                        isFocused = false
-                    }
+                    .onSubmit { isFocused = false }
             }
             
             Picker(selection: $mouseButton, label: Text("Mouse button:")) {
@@ -91,9 +99,7 @@ struct ContentView: View {
                             .frame(width: 50)
                             .disabled(repeatType != "times")
                             .focused($isFocused)
-                            .onSubmit {
-                                isFocused = false
-                            }
+                            .onSubmit { isFocused = false }
                     } .tag("times")
                     Text("Until stop").tag("until_stop")
                     Text("Until timer ends").tag("until_timer_ends")
@@ -109,18 +115,14 @@ struct ContentView: View {
                             .frame(width: 50)
                             .disabled(positionType != "manual")
                             .focused($isFocused)
-                            .onSubmit {
-                                isFocused = false
-                            }
+                            .onSubmit { isFocused = false }
                         Text("Y:")
                         TextField("0", value: $yPosition, format: .number)
                             .textFieldStyle(.roundedBorder)
                             .frame(width: 50)
                             .disabled(positionType != "manual")
                             .focused($isFocused)
-                            .onSubmit {
-                                isFocused = false
-                            }
+                            .onSubmit { isFocused = false }
                     } .tag("manual")
                     Text("Mouse position when starting").tag("mouse_pos_current")
                     Text("Always follow mouse").tag("mouse_follow")
@@ -139,7 +141,7 @@ struct ContentView: View {
             HStack {
                 
                 Button(action: {running = true; print("Starting"); autoClick?.startAutoClick()}, label: {
-                    Text("Start (\(controls.startButtonText))")
+                    Text(startButtonText)
                         .frame(width: 150)
                 })
                 .disabled(running)
@@ -155,10 +157,12 @@ struct ContentView: View {
             }
         }
         .padding()
-        .onSubmit {
-            isFocused = false
-        }
         .onAppear() {
+            let autoclick = Autoclick(contentView: self)
+            let controls = Controls()
+            keyHandler = KeyHandler(autoclick: autoclick, contentView: self, controls: controls)
+            
+            startButtonText = "Start (\(controls.startButtonText))"
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 isFocused = false
             }

@@ -12,8 +12,8 @@
 		963120492C973EC60084EBA7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 963120482C973EC60084EBA7 /* Assets.xcassets */; };
 		9631204C2C973EC60084EBA7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9631204B2C973EC60084EBA7 /* Preview Assets.xcassets */; };
 		9651EA952C994CC0004A3D0E /* Autoclick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9651EA942C994CC0004A3D0E /* Autoclick.swift */; };
-		965DC73A2CC1704900C7A98D /* KeyHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965DC7392CC1704900C7A98D /* KeyHandler.swift */; };
 		96850C9D2CA3373B00E74BF8 /* Controls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96850C9C2CA3373B00E74BF8 /* Controls.swift */; };
+		96B0C0A62CD0D03B007550CA /* KeyHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B0C0A52CD0D03B007550CA /* KeyHandler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,8 +24,8 @@
 		9631204B2C973EC60084EBA7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9631204D2C973EC60084EBA7 /* Autoclicker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Autoclicker.entitlements; sourceTree = "<group>"; };
 		9651EA942C994CC0004A3D0E /* Autoclick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Autoclick.swift; sourceTree = "<group>"; };
-		965DC7392CC1704900C7A98D /* KeyHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyHandler.swift; sourceTree = "<group>"; };
 		96850C9C2CA3373B00E74BF8 /* Controls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Controls.swift; sourceTree = "<group>"; };
+		96B0C0A52CD0D03B007550CA /* KeyHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -76,8 +76,8 @@
 				96D98BBE2CA717D20094D168 /* Views */,
 				9651EA942C994CC0004A3D0E /* Autoclick.swift */,
 				963120442C973EC40084EBA7 /* AutoclickerApp.swift */,
-				965DC7392CC1704900C7A98D /* KeyHandler.swift */,
 				963120462C973EC40084EBA7 /* ContentView.swift */,
+				96B0C0A52CD0D03B007550CA /* KeyHandler.swift */,
 				96850C9C2CA3373B00E74BF8 /* Controls.swift */,
 				963120482C973EC60084EBA7 /* Assets.xcassets */,
 				9631204D2C973EC60084EBA7 /* Autoclicker.entitlements */,
@@ -165,8 +165,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				96850C9D2CA3373B00E74BF8 /* Controls.swift in Sources */,
+				96B0C0A62CD0D03B007550CA /* KeyHandler.swift in Sources */,
 				9651EA952C994CC0004A3D0E /* Autoclick.swift in Sources */,
-				965DC73A2CC1704900C7A98D /* KeyHandler.swift in Sources */,
 				963120472C973EC40084EBA7 /* ContentView.swift in Sources */,
 				963120452C973EC40084EBA7 /* AutoclickerApp.swift in Sources */,
 			);

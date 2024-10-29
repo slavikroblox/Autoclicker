@@ -2,55 +2,38 @@
 //  KeyHandler.swift
 //  Autoclicker
 //
-//  Created by Vyacheslav on 17.10.2024.
-//
-//  Doesn't work right now :(
+//  Created by Vyacheslav on 29.10.2024.
 //
 
-import Foundation
-import AppKit
 import Cocoa
+import Foundation
 
 class KeyHandler {
-    private var globalMonitor: Any?
-    private var localMonitor: Any?
+    var autoclick: Autoclick?
+    var contentView: ContentView?
     
-    init() {
-        startGlobalMonitoring()
-        startLocalMonitoring()
+    init(autoclick: Autoclick, contentView: ContentView, controls: Controls) {
+        self.autoclick = autoclick
+        self.contentView = contentView
+        setupKeyMonitoring()
     }
-    
-    func startGlobalMonitoring() {
-        globalMonitor = NSEvent.addGlobalMonitorForEvents(matching: .keyDown) { [weak self] event in
-            self?.handleKeyPress(event, source: "Global")
-        }
-    }
-    
-    func startLocalMonitoring() {
-        localMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
-            self?.handleKeyPress(event, source: "Local")
+
+    private func setupKeyMonitoring() {
+        NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
+            self?.handleKeyPress(event)
             return event
         }
-    }
-    
-    func stopMonitoring() {
-        if let globalMonitor = globalMonitor {
-            NSEvent.removeMonitor(globalMonitor)
-        }
-        if let localMonitor = localMonitor {
-            NSEvent.removeMonitor(localMonitor)
+
+        NSEvent.addGlobalMonitorForEvents(matching: .keyDown) { [weak self] event in
+            self?.handleKeyPress(event)
         }
     }
-    
-    private func handleKeyPress(_ event: NSEvent, source: String) {
+
+    private func handleKeyPress(_ event: NSEvent) {
         if event.keyCode == 97 {
             print("F6 key pressed")
+            contentView?.running = !contentView!.running
+            autoclick?.startAutoClick()
         }
     }
-    
-    deinit {
-        stopMonitoring()
-    }
 }
-
-let keyHandler = KeyHandler()

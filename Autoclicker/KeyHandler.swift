@@ -11,10 +11,12 @@ import Foundation
 class KeyHandler {
     var autoclick: Autoclick?
     var contentView: ContentView?
+    var controls: Controls
     
     init(autoclick: Autoclick, contentView: ContentView, controls: Controls) {
         self.autoclick = autoclick
         self.contentView = contentView
+        self.controls = controls
         setupKeyMonitoring()
     }
 
@@ -30,10 +32,21 @@ class KeyHandler {
     }
 
     private func handleKeyPress(_ event: NSEvent) {
-        if event.keyCode == 97 {
-            print("F6 key pressed")
-            contentView?.running = !contentView!.running
-            autoclick?.startAutoClick()
+        if controls.keyCodes[controls.startButtonText] == controls.keyCodes[controls.stopButtonText] {
+            if event.keyCode == controls.keyCodes[controls.startButtonText] {
+                print("\(controls.startButtonText) pressed")
+                contentView?.running = !contentView!.running
+                autoclick?.startAutoClick()
+            }
+        } else {
+            if event.keyCode == controls.keyCodes[controls.startButtonText] {
+                print("\(controls.startButtonText) key pressed (start action)")
+                contentView?.running = true
+                autoclick?.startAutoClick()
+            } else if event.keyCode == controls.keyCodes[controls.stopButtonText] {
+                print("\(controls.stopButtonText) key pressed (stop action)")
+                contentView?.running = false
+            }
         }
     }
 }

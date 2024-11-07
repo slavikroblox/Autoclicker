@@ -35,7 +35,6 @@ struct ControlsView: View {
                     Text("F12").tag("F12")
                     
                     // Other
-                    Text("Insert").tag("ins")
                     Text("Command ⌘").tag("⌘")
                     Text("Option ⌥").tag("⌥")
                     Text("Shift ⇧").tag("⇧")
@@ -44,7 +43,6 @@ struct ControlsView: View {
                     Text("Delete").tag("del")
                     Text("Backspace").tag("back")
                     Text("Tab").tag("tab")
-                    Text("Fn").tag("fn")
                     
                 } .frame(width: 100) .id(startButtonTextPickerID)
             }

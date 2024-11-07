@@ -14,6 +14,7 @@
 		9651EA952C994CC0004A3D0E /* Autoclick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9651EA942C994CC0004A3D0E /* Autoclick.swift */; };
 		96850C9D2CA3373B00E74BF8 /* Controls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96850C9C2CA3373B00E74BF8 /* Controls.swift */; };
 		96B0C0A62CD0D03B007550CA /* KeyHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B0C0A52CD0D03B007550CA /* KeyHandler.swift */; };
+		96FF1C802CDBDBD100E9B8AB /* AutoSave.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FF1C7F2CDBDBD100E9B8AB /* AutoSave.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		9651EA942C994CC0004A3D0E /* Autoclick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Autoclick.swift; sourceTree = "<group>"; };
 		96850C9C2CA3373B00E74BF8 /* Controls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Controls.swift; sourceTree = "<group>"; };
 		96B0C0A52CD0D03B007550CA /* KeyHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyHandler.swift; sourceTree = "<group>"; };
+		96FF1C7F2CDBDBD100E9B8AB /* AutoSave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoSave.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -77,6 +79,7 @@
 				9651EA942C994CC0004A3D0E /* Autoclick.swift */,
 				963120442C973EC40084EBA7 /* AutoclickerApp.swift */,
 				963120462C973EC40084EBA7 /* ContentView.swift */,
+				96FF1C7F2CDBDBD100E9B8AB /* AutoSave.swift */,
 				96B0C0A52CD0D03B007550CA /* KeyHandler.swift */,
 				96850C9C2CA3373B00E74BF8 /* Controls.swift */,
 				963120482C973EC60084EBA7 /* Assets.xcassets */,
@@ -126,6 +129,7 @@
 				TargetAttributes = {
 					963120402C973EC40084EBA7 = {
 						CreatedOnToolsVersion = 15.4;
+						LastSwiftMigration = 1610;
 					};
 				};
 			};
@@ -165,6 +169,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				96850C9D2CA3373B00E74BF8 /* Controls.swift in Sources */,
+				96FF1C802CDBDBD100E9B8AB /* AutoSave.swift in Sources */,
 				96B0C0A62CD0D03B007550CA /* KeyHandler.swift in Sources */,
 				9651EA952C994CC0004A3D0E /* Autoclick.swift in Sources */,
 				963120472C973EC40084EBA7 /* ContentView.swift in Sources */,
@@ -300,6 +305,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Autoclicker/Autoclicker.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -320,6 +326,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.vyacheslav.Autoclicker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -329,6 +336,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Autoclicker/Autoclicker.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;

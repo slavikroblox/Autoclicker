@@ -118,7 +118,6 @@ struct ContentView: View {
                             .focused($isFocused)
                             .onSubmit { isFocused = false }
                     } .tag("manual")
-                    Text("Mouse position when starting").tag("mouse_pos_current")
                     Text("Always follow mouse").tag("mouse_follow")
                 } .pickerStyle(RadioGroupPickerStyle())
             }
@@ -184,7 +183,7 @@ struct ContentView: View {
             UserDefaults.standard.set(seconds, forKey: "seconds")
         }
         .onChange(of: positionType) {
-            UserDefaults.standard.set(hours, forKey: "positionType")
+            UserDefaults.standard.set(positionType, forKey: "positionType")
         }
         .onChange(of: xPosition) {
             UserDefaults.standard.set(xPosition, forKey: "xPosition")

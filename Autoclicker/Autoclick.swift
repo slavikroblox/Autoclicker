@@ -27,35 +27,63 @@ class Autoclick {
     
     func autoclick() {
         let mousePosition = NSEvent.mouseLocation
+        let clickPositon = CGPoint(x: self.contentView.xPosition, y: self.contentView.yPosition)
         if let screenHeight = NSScreen.main?.frame.height {
             let correctedPosition = CGPoint(x: mousePosition.x, y: screenHeight - mousePosition.y)
             
-            if self.contentView.mouseButton == "left" {
-                let mouseDown = CGEvent(mouseEventSource: nil, mouseType: .leftMouseDown, mouseCursorPosition: correctedPosition, mouseButton: .left)
-                mouseDown?.timestamp = UInt64(interval)
-                mouseDown?.post(tap: .cghidEventTap)
-                
-                let mouseUp = CGEvent(mouseEventSource: nil, mouseType: .leftMouseUp, mouseCursorPosition: correctedPosition, mouseButton: .left)
-                mouseUp?.timestamp = UInt64(interval)
-                mouseUp?.post(tap: .cghidEventTap)
-            } else if self.contentView.mouseButton == "right" {
-                let mouseDown = CGEvent(mouseEventSource: nil, mouseType: .rightMouseDown, mouseCursorPosition: correctedPosition, mouseButton: .right)
-                mouseDown?.timestamp = UInt64(interval)
-                mouseDown?.post(tap: .cghidEventTap)
-                
-                let mouseUp = CGEvent(mouseEventSource: nil, mouseType: .rightMouseUp, mouseCursorPosition: correctedPosition, mouseButton: .right)
-                mouseUp?.timestamp = UInt64(interval)
-                mouseUp?.post(tap: .cghidEventTap)
-            } else if self.contentView.mouseButton == "middle" {
-                let mouseDown = CGEvent(mouseEventSource: nil, mouseType: .otherMouseDown, mouseCursorPosition: correctedPosition, mouseButton: .center)
-                mouseDown?.timestamp = UInt64(interval)
-                mouseDown?.post(tap: .cghidEventTap)
-                
-                let mouseUp = CGEvent(mouseEventSource: nil, mouseType: .otherMouseUp, mouseCursorPosition: correctedPosition, mouseButton: .center)
-                mouseUp?.timestamp = UInt64(interval)
-                mouseUp?.post(tap: .cghidEventTap)
+            if self.contentView.positionType == "manual" {
+                if self.contentView.mouseButton == "left" {
+                    let mouseDown = CGEvent(mouseEventSource: nil, mouseType: .leftMouseDown, mouseCursorPosition: clickPositon, mouseButton: .left)
+                    mouseDown?.timestamp = UInt64(interval)
+                    mouseDown?.post(tap: .cghidEventTap)
+                    
+                    let mouseUp = CGEvent(mouseEventSource: nil, mouseType: .leftMouseUp, mouseCursorPosition: clickPositon, mouseButton: .left)
+                    mouseUp?.timestamp = UInt64(interval)
+                    mouseUp?.post(tap: .cghidEventTap)
+                } else if self.contentView.mouseButton == "right" {
+                    let mouseDown = CGEvent(mouseEventSource: nil, mouseType: .rightMouseDown, mouseCursorPosition: clickPositon, mouseButton: .right)
+                    mouseDown?.timestamp = UInt64(interval)
+                    mouseDown?.post(tap: .cghidEventTap)
+                    
+                    let mouseUp = CGEvent(mouseEventSource: nil, mouseType: .rightMouseUp, mouseCursorPosition: clickPositon, mouseButton: .right)
+                    mouseUp?.timestamp = UInt64(interval)
+                    mouseUp?.post(tap: .cghidEventTap)
+                } else if self.contentView.mouseButton == "middle" {
+                    let mouseDown = CGEvent(mouseEventSource: nil, mouseType: .otherMouseDown, mouseCursorPosition: clickPositon, mouseButton: .center)
+                    mouseDown?.timestamp = UInt64(interval)
+                    mouseDown?.post(tap: .cghidEventTap)
+                    
+                    let mouseUp = CGEvent(mouseEventSource: nil, mouseType: .otherMouseUp, mouseCursorPosition: clickPositon, mouseButton: .center)
+                    mouseUp?.timestamp = UInt64(interval)
+                    mouseUp?.post(tap: .cghidEventTap)
+                }
+            } else if self.contentView.positionType == "mouse_follow" {
+                if self.contentView.mouseButton == "left" {
+                    let mouseDown = CGEvent(mouseEventSource: nil, mouseType: .leftMouseDown, mouseCursorPosition: correctedPosition, mouseButton: .left)
+                    mouseDown?.timestamp = UInt64(interval)
+                    mouseDown?.post(tap: .cghidEventTap)
+                    
+                    let mouseUp = CGEvent(mouseEventSource: nil, mouseType: .leftMouseUp, mouseCursorPosition: correctedPosition, mouseButton: .left)
+                    mouseUp?.timestamp = UInt64(interval)
+                    mouseUp?.post(tap: .cghidEventTap)
+                } else if self.contentView.mouseButton == "right" {
+                    let mouseDown = CGEvent(mouseEventSource: nil, mouseType: .rightMouseDown, mouseCursorPosition: correctedPosition, mouseButton: .right)
+                    mouseDown?.timestamp = UInt64(interval)
+                    mouseDown?.post(tap: .cghidEventTap)
+                    
+                    let mouseUp = CGEvent(mouseEventSource: nil, mouseType: .rightMouseUp, mouseCursorPosition: correctedPosition, mouseButton: .right)
+                    mouseUp?.timestamp = UInt64(interval)
+                    mouseUp?.post(tap: .cghidEventTap)
+                } else if self.contentView.mouseButton == "middle" {
+                    let mouseDown = CGEvent(mouseEventSource: nil, mouseType: .otherMouseDown, mouseCursorPosition: correctedPosition, mouseButton: .center)
+                    mouseDown?.timestamp = UInt64(interval)
+                    mouseDown?.post(tap: .cghidEventTap)
+                    
+                    let mouseUp = CGEvent(mouseEventSource: nil, mouseType: .otherMouseUp, mouseCursorPosition: correctedPosition, mouseButton: .center)
+                    mouseUp?.timestamp = UInt64(interval)
+                    mouseUp?.post(tap: .cghidEventTap)
+                }
             }
-            
         }
     }
         

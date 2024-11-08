@@ -88,25 +88,53 @@ class Autoclick {
     }
         
     func startAutoClick() {
-        DispatchQueue.global(qos: .background).async {
-            if self.contentView.repeatType == "times" {
-                while self.contentView.running == true && self.timesClicked < self.contentView.repeatTimes {
-                    self.autoclick()
-                    self.timesClicked += 1
-                    Thread.sleep(forTimeInterval: self.interval)
+        if self.contentView.timerBeforeStart > 0 {
+            self.contentView.running = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + self.contentView.timerBeforeStart) {
+                DispatchQueue.global(qos: .background).async {
+                    if self.contentView.repeatType == "times" {
+                        while self.contentView.running == true && self.timesClicked < self.contentView.repeatTimes {
+                            self.autoclick()
+                            self.timesClicked += 1
+                            Thread.sleep(forTimeInterval: self.interval)
+                        }
+                        print("Clicked \(self.timesClicked) times. Ending autoclick.")
+                        self.contentView.running = false
+                        self.timesClicked = 0
+                    } else if self.contentView.repeatType == "until_stop" {
+                        while self.contentView.running == true {
+                            self.autoclick()
+                            Thread.sleep(forTimeInterval: self.interval)
+                        }
+                    } else {
+                        while self.contentView.running == true {
+                            self.autoclick()
+                            Thread.sleep(forTimeInterval: self.interval)
+                        }
+                    }
                 }
-                print("Clicked \(self.timesClicked) times. Ending autoclick.")
-                self.contentView.running = false
-                self.timesClicked = 0
-            } else if self.contentView.repeatType == "until_stop" {
-                while self.contentView.running == true {
-                    self.autoclick()
-                    Thread.sleep(forTimeInterval: self.interval)
-                }
-            } else {
-                while self.contentView.running == true {
-                    self.autoclick()
-                    Thread.sleep(forTimeInterval: self.interval)
+            }
+        } else {
+            DispatchQueue.global(qos: .background).async {
+                if self.contentView.repeatType == "times" {
+                    while self.contentView.running == true && self.timesClicked < self.contentView.repeatTimes {
+                        self.autoclick()
+                        self.timesClicked += 1
+                        Thread.sleep(forTimeInterval: self.interval)
+                    }
+                    print("Clicked \(self.timesClicked) times. Ending autoclick.")
+                    self.contentView.running = false
+                    self.timesClicked = 0
+                } else if self.contentView.repeatType == "until_stop" {
+                    while self.contentView.running == true {
+                        self.autoclick()
+                        Thread.sleep(forTimeInterval: self.interval)
+                    }
+                } else {
+                    while self.contentView.running == true {
+                        self.autoclick()
+                        Thread.sleep(forTimeInterval: self.interval)
+                    }
                 }
             }
         }

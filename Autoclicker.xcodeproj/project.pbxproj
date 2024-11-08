@@ -35,6 +35,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				ControlsView.swift,
+				KeyClickerView.swift,
 				TabMenu.swift,
 			);
 			target = 963120402C973EC40084EBA7 /* Autoclicker */;

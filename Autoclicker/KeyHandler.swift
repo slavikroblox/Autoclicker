@@ -7,6 +7,7 @@
 
 import Cocoa
 import Foundation
+import Combine
 
 class KeyHandler {
     var autoclick: Autoclick?
@@ -30,23 +31,17 @@ class KeyHandler {
             self?.handleKeyPress(event)
         }
     }
-
+    
     private func handleKeyPress(_ event: NSEvent) {
-        if controls.keyCodes[controls.startButtonText] == controls.keyCodes[controls.stopButtonText] {
-            if event.keyCode == controls.keyCodes[controls.startButtonText] {
-                print("\(controls.startButtonText) pressed")
-                contentView?.running = !contentView!.running
-                autoclick?.startAutoClick()
-            }
-        } else {
-            if event.keyCode == controls.keyCodes[controls.startButtonText] {
-                print("\(controls.startButtonText) key pressed (start action)")
-                contentView?.running = true
-                autoclick?.startAutoClick()
-            } else if event.keyCode == controls.keyCodes[controls.stopButtonText] {
-                print("\(controls.stopButtonText) key pressed (stop action)")
-                contentView?.running = false
-            }
+        if  let startKeyCode = controls.keyCodes[controls.startButtonText], event.keyCode == startKeyCode  {
+            print("\(controls.startButtonText) key pressed (start action)")
+            print("start key code: \(startKeyCode)")
+            contentView?.running = true
+            autoclick?.startAutoClick()
+        } else if let stopKeyCode = controls.keyCodes[controls.stopButtonText], event.keyCode == stopKeyCode {
+            print("\(controls.stopButtonText) key pressed (stop action)")
+            print("stop key code: \(stopKeyCode)")
+            contentView?.running = false
         }
     }
 }

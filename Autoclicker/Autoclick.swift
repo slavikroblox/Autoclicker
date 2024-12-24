@@ -12,6 +12,8 @@ class Autoclick {
     
     private var controlsView = ControlsView()
     private var timesClicked : Int = 0
+    public var countdown: Int = 0
+    private var timer: Timer? = nil
     
     var contentView: ContentView
     
@@ -90,26 +92,33 @@ class Autoclick {
     func startAutoClick() {
         if self.contentView.timerBeforeStart > 0 {
             self.contentView.running = true
-            DispatchQueue.main.asyncAfter(deadline: .now() + self.contentView.timerBeforeStart) {
-                DispatchQueue.global(qos: .background).async {
-                    if self.contentView.repeatType == "times" {
-                        while self.contentView.running == true && self.timesClicked < self.contentView.repeatTimes {
-                            self.autoclick()
-                            self.timesClicked += 1
-                            Thread.sleep(forTimeInterval: self.interval)
-                        }
-                        print("Clicked \(self.timesClicked) times. Ending autoclick.")
-                        self.contentView.running = false
-                        self.timesClicked = 0
-                    } else if self.contentView.repeatType == "until_stop" {
-                        while self.contentView.running == true {
-                            self.autoclick()
-                            Thread.sleep(forTimeInterval: self.interval)
-                        }
-                    } else {
-                        while self.contentView.running == true {
-                            self.autoclick()
-                            Thread.sleep(forTimeInterval: self.interval)
+            self.countdown = Int(self.contentView.timerBeforeStart)
+            
+            timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
+                if self.countdown > 0 {
+                    self.countdown -= 1
+                } else {
+                    self.timer?.invalidate()
+                    DispatchQueue.global(qos: .background).async {
+                        if self.contentView.repeatType == "times" {
+                            while self.contentView.running == true && self.timesClicked < self.contentView.repeatTimes {
+                                self.autoclick()
+                                self.timesClicked += 1
+                                Thread.sleep(forTimeInterval: self.interval)
+                            }
+                            print("Clicked \(self.timesClicked) times. Ending autoclick.")
+                            self.contentView.running = false
+                            self.timesClicked = 0
+                        } else if self.contentView.repeatType == "until_stop" {
+                            while self.contentView.running == true {
+                                self.autoclick()
+                                Thread.sleep(forTimeInterval: self.interval)
+                            }
+                        } else {
+                            while self.contentView.running == true {
+                                self.autoclick()
+                                Thread.sleep(forTimeInterval: self.interval)
+                            }
                         }
                     }
                 }
@@ -130,10 +139,18 @@ class Autoclick {
                         self.autoclick()
                         Thread.sleep(forTimeInterval: self.interval)
                     }
-                } else {
-                    while self.contentView.running == true {
-                        self.autoclick()
-                        Thread.sleep(forTimeInterval: self.interval)
+                } else if self.contentView.repeatType == "until_timer_ends" {
+                    let totalSeconds : Int = self.contentView.hours * 3600 + self.contentView.minutes * 60 + self.contentView.seconds
+
+                    DispatchQueue.global(qos: .background).async {
+                        while self.contentView.running == true {
+                            self.autoclick()
+                            Thread.sleep(forTimeInterval: self.interval)
+                        }
+                    }
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(totalSeconds)) {
+                        self.contentView.running = false
                     }
                 }
             }

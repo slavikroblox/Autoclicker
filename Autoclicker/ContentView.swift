@@ -13,7 +13,7 @@ struct ContentView: View {
     
     @State private var autoClick: Autoclick?
     
-    @FocusState private var isFocused: Bool
+    @FocusState public var isFocused: Bool
     
     init() {
     }
@@ -43,30 +43,8 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            HStack {
-                Text("Hours")
-                TextField("0", value: $hours, format: .number)
-                    .textFieldStyle(.roundedBorder)
-                    .frame(width: 50)
-                    .disabled(repeatType != "until_timer_ends")
-                    .focused($isFocused)
-                    .onSubmit { isFocused = false }
-                        
-                Text("Minutes")
-                TextField("0", value: $minutes, format: .number)
-                    .textFieldStyle(.roundedBorder)
-                    .frame(width: 50)
-                    .disabled(repeatType != "until_timer_ends")
-                    .focused($isFocused)
-                    .onSubmit { isFocused = false }
-                        
-                Text("Seconds")
-                TextField("0", value: $seconds, format: .number)
-                    .textFieldStyle(.roundedBorder)
-                    .frame(width: 50)
-                    .disabled(repeatType != "until_timer_ends")
-                    .focused($isFocused)
-                    .onSubmit { isFocused = false }
+            Section {
+                timer
             }
             
             HStack {
@@ -84,6 +62,46 @@ struct ContentView: View {
                 Text("Right").tag("right")
             } .frame(width: 175)
             
+            Section {
+                repeatSelect
+            }
+                
+            Section {
+                positionSelect
+            }
+            
+            Section {
+                timerBeforeStartView
+            }
+            
+            startAndStopButtons
+        }
+        .padding()
+        .onAppear {
+            let autoclick = Autoclick(contentView: self)
+            let controls = Controls()
+            keyHandler = KeyHandler(autoclick: autoclick, contentView: self, controls: Controls())
+            
+            startButtonText = "Start (\(controls.startButtonText))"
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                isFocused = false
+            }
+        }
+        .onChange(of: cps) { UserDefaults.standard.set(cps, forKey: "cps") }
+        .onChange(of: repeatTimes) { UserDefaults.standard.set(repeatTimes, forKey: "repeatTimes") }
+        .onChange(of: repeatType) { UserDefaults.standard.set(repeatType, forKey: "repeatType") }
+        .onChange(of: mouseButton) { UserDefaults.standard.set(mouseButton, forKey: "mouseButton") }
+        .onChange(of: hours) { UserDefaults.standard.set(hours, forKey: "hours") }
+        .onChange(of: minutes) { UserDefaults.standard.set(minutes, forKey: "minutes") }
+        .onChange(of: seconds) { UserDefaults.standard.set(seconds, forKey: "seconds") }
+        .onChange(of: positionType) { UserDefaults.standard.set(positionType, forKey: "positionType") }
+        .onChange(of: xPosition) { UserDefaults.standard.set(xPosition, forKey: "xPosition") }
+        .onChange(of: yPosition) { UserDefaults.standard.set(yPosition, forKey: "yPosition") }
+    }
+    
+    @ViewBuilder
+    var repeatSelect: some View {
+        HStack {
             HStack {
                 Picker(selection: $repeatType, label: Text("Repeat:")) {
                     HStack {
@@ -99,97 +117,92 @@ struct ContentView: View {
                     Text("Until timer ends").tag("until_timer_ends")
                 } .pickerStyle(RadioGroupPickerStyle())
             }
-                
-            HStack {
-                Picker(selection: $positionType, label: Text("Position: ")) {
-                    HStack {
-                        Text("X:")
-                        TextField("0", value: $xPosition, format: .number)
-                            .textFieldStyle(.roundedBorder)
-                            .frame(width: 50)
-                            .disabled(positionType != "manual")
-                            .focused($isFocused)
-                            .onSubmit { isFocused = false }
-                        Text("Y:")
-                        TextField("0", value: $yPosition, format: .number)
-                            .textFieldStyle(.roundedBorder)
-                            .frame(width: 50)
-                            .disabled(positionType != "manual")
-                            .focused($isFocused)
-                            .onSubmit { isFocused = false }
-                    } .tag("manual")
-                    Text("Always follow mouse").tag("mouse_follow")
-                } .pickerStyle(RadioGroupPickerStyle())
-            }
+        }
+    }
+    
+    @ViewBuilder
+    var positionSelect: some View {
+        HStack {
+            Picker(selection: $positionType, label: Text("Position: ")) {
+                HStack {
+                    Text("X:")
+                    TextField("0", value: $xPosition, format: .number)
+                        .textFieldStyle(.roundedBorder)
+                        .frame(width: 50)
+                        .disabled(positionType != "manual")
+                        .focused($isFocused)
+                        .onSubmit { isFocused = false }
+                    Text("Y:")
+                    TextField("0", value: $yPosition, format: .number)
+                        .textFieldStyle(.roundedBorder)
+                        .frame(width: 50)
+                        .disabled(positionType != "manual")
+                        .focused($isFocused)
+                        .onSubmit { isFocused = false }
+                } .tag("manual")
+                Text("Always follow mouse").tag("mouse_follow")
+            } .pickerStyle(RadioGroupPickerStyle())
+        }
+    }
+    
+    @ViewBuilder
+    var timer: some View {
+        HStack {
+            Text("Hours")
+            TextField("0", value: $hours, format: .number)
+                .textFieldStyle(.roundedBorder)
+                .frame(width: 50)
+                .disabled(repeatType != "until_timer_ends")
+                .focused($isFocused)
+                .onSubmit { isFocused = false }
             
-            HStack {
-                Picker(selection: $timerBeforeStart, label: Text("Timer before start: ")) {
-                    Text("Off").tag(0.0)
-                    Text("3s").tag(3.0)
-                    Text("5s").tag(5.0)
-                    Text("10s").tag(10.0)
-                }.frame(width: 200)
-            }
+            Text("Minutes")
+            TextField("0", value: $minutes, format: .number)
+                .textFieldStyle(.roundedBorder)
+                .frame(width: 50)
+                .disabled(repeatType != "until_timer_ends")
+                .focused($isFocused)
+                .onSubmit { isFocused = false }
             
-            HStack {
-                
-                Button(action: {running = true; print("Starting"); autoClick?.startAutoClick()}, label: {
-                    Text("Start (\(controls.startButtonText))")
-                        .frame(width: 150)
-                })
-                .disabled(running)
-                
-                Button(action: {running = false}, label: {
-                    Text("Stop (\(controls.stopButtonText))")
-                        .frame(width: 150)
-                })
-                .disabled(!running)
-                .onAppear {
-                    autoClick = Autoclick(contentView: self)
-                }
-            }
+            Text("Seconds")
+            TextField("0", value: $seconds, format: .number)
+                .textFieldStyle(.roundedBorder)
+                .frame(width: 50)
+                .disabled(repeatType != "until_timer_ends")
+                .focused($isFocused)
+                .onSubmit { isFocused = false }
         }
-        .padding()
-        .onAppear() {
-            let autoclick = Autoclick(contentView: self)
-            let controls = Controls()
-            keyHandler = KeyHandler(autoclick: autoclick, contentView: self, controls: controls)
+    }
+    
+    @ViewBuilder
+    var timerBeforeStartView: some View {
+        HStack {
+            Picker(selection: $timerBeforeStart, label: Text("Timer before start: ")) {
+                Text("Off").tag(0.0)
+                Text("3s").tag(3.0)
+                Text("5s").tag(5.0)
+                Text("10s").tag(10.0)
+            }.frame(width: 200)
+        }
+    }
+    
+    @ViewBuilder
+    var startAndStopButtons: some View {
+        HStack {
+            Button(action: {running = true; print("Starting"); autoClick?.startAutoClick()}, label: {
+                Text(running ? "\(autoClick?.countdown ?? 0)" : "Start (\(controls.startButtonText))")
+                    .frame(width: 150)
+            })
+            .disabled(running)
             
-            startButtonText = "Start (\(controls.startButtonText))"
-            print(startButtonText)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                isFocused = false
+            Button(action: {running = false}, label: {
+                Text("Stop (\(controls.stopButtonText))")
+                    .frame(width: 150)
+            })
+            .disabled(!running)
+            .onAppear {
+                autoClick = Autoclick(contentView: self)
             }
-        }
-        .onChange(of: cps) {
-            UserDefaults.standard.set(cps, forKey: "cps")
-        }
-        .onChange(of: repeatTimes) {
-            UserDefaults.standard.set(repeatTimes, forKey: "repeatTimes")
-        }
-        .onChange(of: repeatType) {
-            UserDefaults.standard.set(repeatType, forKey: "repeatType")
-        }
-        .onChange(of: mouseButton) {
-            UserDefaults.standard.set(mouseButton, forKey: "mouseButton")
-        }
-        .onChange(of: hours) {
-            UserDefaults.standard.set(hours, forKey: "hours")
-        }
-        .onChange(of: minutes) {
-            UserDefaults.standard.set(minutes, forKey: "minutes")
-        }
-        .onChange(of: seconds) {
-            UserDefaults.standard.set(seconds, forKey: "seconds")
-        }
-        .onChange(of: positionType) {
-            UserDefaults.standard.set(positionType, forKey: "positionType")
-        }
-        .onChange(of: xPosition) {
-            UserDefaults.standard.set(xPosition, forKey: "xPosition")
-        }
-        .onChange(of: yPosition) {
-            UserDefaults.standard.set(yPosition, forKey: "yPosition")
         }
     }
 }

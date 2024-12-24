@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import Combine
 
-class Controls: ObservableObject {
+class Controls: ObservableObject {    
     @Published var startButtonText : String = "F6"
     @Published var stopButtonText : String = "F6"
     @Published var keyCodes: [String: UInt16] = [

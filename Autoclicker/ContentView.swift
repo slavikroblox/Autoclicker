@@ -41,6 +41,9 @@ struct ContentView: View {
     
     @State private var keyHandler: KeyHandler?
     
+    @State private var cpsErrorText = ""
+    
+    // UI view
     var body: some View {
         VStack {
             Section {
@@ -74,7 +77,11 @@ struct ContentView: View {
                 timerBeforeStartView
             }
             
-            startAndStopButtons
+            Section {
+                startAndStopButtons
+            }
+            
+            Text(cpsErrorText)
         }
         .padding()
         .onAppear {
@@ -100,6 +107,8 @@ struct ContentView: View {
     }
     
     @ViewBuilder
+    
+    // Repeat selecter UI
     var repeatSelect: some View {
         HStack {
             HStack {
@@ -121,6 +130,8 @@ struct ContentView: View {
     }
     
     @ViewBuilder
+    
+    // Click position selecter UI
     var positionSelect: some View {
         HStack {
             Picker(selection: $positionType, label: Text("Position: ")) {
@@ -146,6 +157,8 @@ struct ContentView: View {
     }
     
     @ViewBuilder
+    
+    // Timer UI
     var timer: some View {
         HStack {
             Text("Hours")
@@ -175,6 +188,8 @@ struct ContentView: View {
     }
     
     @ViewBuilder
+    
+    // Timer before start UI
     var timerBeforeStartView: some View {
         HStack {
             Picker(selection: $timerBeforeStart, label: Text("Timer before start: ")) {
@@ -187,10 +202,18 @@ struct ContentView: View {
     }
     
     @ViewBuilder
+    
+    // UI for start and stop buttons
     var startAndStopButtons: some View {
         HStack {
-            Button(action: {running = true; print("Starting"); autoClick?.startAutoClick()}, label: {
-                Text(running ? "\(autoClick?.countdown ?? 0)" : "Start (\(controls.startButtonText))")
+            Button(action: {running = true; print("Starting"); cps <= 0 ? cpsErrorText = "CPS cannot be zero or negative." : {
+                cpsErrorText = ""; autoClick?.startAutoClick()
+            }()}, label: {
+                Text(
+                    running ?
+                    (autoClick?.countdown ?? 0) > 0
+                    ? "\(autoClick?.countdown ?? 0)"
+                    : "Start (\(controls.startButtonText))" : "Start (\(controls.startButtonText))")
                     .frame(width: 150)
             })
             .disabled(running)
